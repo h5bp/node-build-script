@@ -3,8 +3,8 @@ var path = require('path'),
   minimatch = require('minimatch'),
   rimraf = require("rimraf"),
   win32 = process.platform === 'win32',
+  fs = require('fs'),
   crlf = win32 ? '\r\n' : '\n';
-
 //
 // ### Tasks
 //
@@ -38,11 +38,13 @@ task.registerBasicTask('mkdirs', 'Prepares the build dirs', function(data, name)
     }, true);
   });
 
-  files.forEach(function(f) {
+  files.forEach(function(src){
+    var dst, is, os;
     // only relevant on windows platform, where glob-whatev seems to also return
     // dirs, with a trailing `/`
-    if(f.charAt(f.length - 1) === '/') return file.mkdir(path.resolve(dirname, f));
-    file.write(path.resolve(dirname, f), file.read(f));
+    dst = path.resolve(dirname, src);
+    if(src.charAt(src.length - 1) === '/') return file.mkdir(dst);
+    fs.writeFileSync(dst, fs.readFileSync(src));
   });
 
 
@@ -75,5 +77,3 @@ task.registerHelper('clean', function(dir, cb) {
   if(typeof cb !== 'function') return rimraf.sync(dir);
   rimraf(dir, cb);
 });
-
-
