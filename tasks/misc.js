@@ -3,28 +3,7 @@ var path = require('path'),
   minimatch = require('minimatch'),
   rimraf = require("rimraf"),
   win32 = process.platform === 'win32',
-  fs = require('fs'),
-  util = require('util'),
-  crlf = win32 ? '\r\n' : '\n',
-  copyFileSync;
-
-copyFileSync = function(srcFile, destFile) {
-  var BUF_LENGTH, buff, bytesRead, fdr, fdw, pos;
-  BUF_LENGTH = 64 * 1024;
-  buff = new Buffer(BUF_LENGTH);
-  fdr = fs.openSync(srcFile, 'r');
-  fdw = fs.openSync(destFile, 'w');
-  bytesRead = 1;
-  pos = 0;
-  while (bytesRead > 0) {
-    bytesRead = fs.readSync(fdr, buff, 0, BUF_LENGTH, pos);
-    fs.writeSync(fdw, buff, 0, bytesRead);
-    pos += bytesRead;
-  }
-  fs.closeSync(fdr);
-  return fs.closeSync(fdw);
-};
-
+  crlf = win32 ? '\r\n' : '\n';
 //
 // ### Tasks
 //
@@ -64,8 +43,7 @@ task.registerBasicTask('mkdirs', 'Prepares the build dirs', function(data, name)
     // dirs, with a trailing `/`
     dst = path.resolve(dirname, src);
     if(src.charAt(src.length - 1) === '/') return file.mkdir(dst);
-    //http://procbits.com/2011/11/15/synchronous-file-copy-in-node-js/
-    copyFileSync(src, dst);
+    fs.writeFileSync(dst, fs.readFileSync(src));
   });
 
 
