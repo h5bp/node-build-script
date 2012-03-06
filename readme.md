@@ -197,6 +197,21 @@ You may find a slightly more detailed documentation for each tasks in
 the [`tasks/`
 directory](https://github.com/h5bp/node-build-script/tree/master/tasks#readme).
 
+##### Dev
+
+  #clone repo
+  git clone git://github.com/h5bp/node-build-script.git node-build-script
+  #enter repo
+  cd node-build-script
+  #install h5bp from this directory
+  npm link
+  #or try sudo npm link
+  #from now you can use this h5bp
+
+  #test
+  npm test
+
+
 ##### Notes
 
 Following are rough notes and may be layout in gh issues as well.
