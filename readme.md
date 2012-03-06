@@ -207,8 +207,9 @@ directory](https://github.com/h5bp/node-build-script/tree/master/tasks#readme).
   npm link
   #or try sudo npm link
   #from now you can use this h5bp
+  h5bp --help
 
-  #test
+  #test h5bp script
   npm test
 
 
