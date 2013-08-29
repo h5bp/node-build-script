@@ -1,4 +1,3 @@
-
 var fs = require('fs'),
   path = require('path');
 
@@ -153,7 +152,8 @@ module.exports = function(grunt) {
       var filepath = grunt.file.expand(path.join('**/*') + basename)[0];
 
       // not a file in intermediate, skip it
-      if(!filepath) return match;
+      if(!filepath || filepath.length === 0) return match;
+      
       var filename = path.basename(filepath);
       // handle the relative prefix (with always unix like path even on win32)
       filename = [dirname, filename].join('/');
